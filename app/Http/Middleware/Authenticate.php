@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Authenticate extends Middleware
 {
@@ -15,7 +16,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            if ($request->is('admin') || $request->is('admin/*'))
+            if ($request->is('admin') || $request->is('admin/*') || $request->is(LaravelLocalization::setLocale() . '/admin') | $request->is(LaravelLocalization::setLocale() . '/admin/*'))
                 return route('admin.login');
             else
             return route('login');
