@@ -12,10 +12,13 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
+        $admin = Admin::where('email','arabever2@gmail.com')->count();
+        if($admin < 1){
         Admin::updateOrCreate([
             'name' => 'zakaria',
             'email' => 'arabever2@gmail.com',
             'password' => Hash::make('1234')
         ]);
+        }
     }
 }
