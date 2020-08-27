@@ -11,7 +11,7 @@ class Setting extends Model
     protected $with='translations';
     protected $fillable=['key','is_translatable','plain_value'];
     protected $casts= ['is_translatable' => 'boolean']; // casting this field to boolean (get true instead of 1 .. )
-    public $translatedAttributes = ['value']; // Used For translatable package
+    public $translatedAttributes = ['value','locale']; // Used For translatable package
 
 
 
@@ -24,7 +24,10 @@ class Setting extends Model
     public static function set($key, $value){
 
     if ($key == 'translatable') {
-        return static::setTranslatableSettings($value);
+        foreach($value as $keyName => $val){
+             static::setTranslatableSettings($keyName,$val);
+        }
+        return 0;
     }
 
     if(is_array($value)){
@@ -34,13 +37,14 @@ class Setting extends Model
 
     }
 
-    public static function setTranslatableSettings($settings = []){
+    public static function setTranslatableSettings($key,$values = []){
 
-        foreach ($settings as $key => $value) {
+        foreach ($values as $lang => $value) {
 
             static::updateOrCreate(['key' => $key], [
             'is_translatable' => true,
-            'value' => $value // The package will Now we add it to setting translations table
+            'value' => $value, // The package will Now we add it to setting translations table
+            'locale' => $lang // If we don't add locale, it will be added as language of app
             ]);
 
         }

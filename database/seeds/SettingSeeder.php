@@ -24,12 +24,20 @@ class SettingSeeder extends Seeder
             'outer_shipping_cost' => 0,
             'free_shipping_cost' => 0,
             'translatable' => [
-                'store_name' => 'zakaria store',
-                'free_shipping_label' => 'free shipping',
-                'local_label' => 'Local shipping',
-                'outer_label' => 'outer shipping'
-            ]
+                'store_name' => ['en' => 'zakaria store',
+                'ar' => 'متجر زكريا'
+            ],
+                'free_shipping_label' => ['en' => 'free shipping',
+                'ar' => 'شحن مجاني'
+            ],
+                'local_label' => ['en' => 'Local shipping',
+                'ar' => 'التوصيل المحلي'
+            ],
+                'outer_label' => ['en' => 'outer shipping',
+                'ar' => 'التوصيل الخارجي',
+            ],
 
+            ]
         ]);
     }
 }
