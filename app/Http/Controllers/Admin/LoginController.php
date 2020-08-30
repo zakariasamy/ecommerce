@@ -22,4 +22,9 @@ class LoginController extends Controller
 
         return redirect()->route('admin.login')->with(['error' => 'هناك خطأ في البيانات']);
     }
+
+    public function logout(){
+        auth('admin')->logout();
+        return redirect()->route('admin.login');
+    }
 }
