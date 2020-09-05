@@ -11,9 +11,20 @@ class Category extends Model
     protected $with='translations';
     protected $guarded=[];
     protected $hidden = ['translations']; // it can be visible by writing some code in controller
-    protected $casts= ['is_active']; // casting this field to boolean (get true instead of 1
+    protected $casts= ['is_active' => 'boolean']; // casting this field to boolean (get true instead of 1
 
     public $translatedAttributes = ['name']; // Used For translatable package
+
+    public function scopeParent($query){
+
+        return $query->whereNull('parent_id');
+
+    }
+
+
+    public function getActive(){
+        return $this->is_active == 1 ? 'مفعل' : 'غير مفعل';
+    }
 
 
 }
