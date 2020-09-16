@@ -15,15 +15,22 @@ class Category extends Model
 
     public $translatedAttributes = ['name']; // Used For translatable package
 
+
+
     public function scopeParent($query){
-
-        return $query->whereNull('parent_id');
-
+        return $query -> whereNull('parent_id');
     }
 
+    public function scopeChild($query){
+        return $query -> whereNotNull('parent_id');
+    }
 
     public function getActive(){
-        return $this->is_active == 1 ? 'مفعل' : 'غير مفعل';
+       return  $this -> is_active  == 0 ?  'غير مفعل'   : 'مفعل' ;
+    }
+
+    public function _parent(){
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
 
