@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\BrandRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -32,12 +34,12 @@ class BrandController extends Controller
         if ($request->has('photo')) {
             $fileName = uploadImage('brands', $request->photo);
         }
-        $newRequest = $request->except('photo');
-        $newRequest['photo'] = $fileName;
+        $request = $request->except('photo');
+        $request['photo'] = $fileName;
 
        // return $newRequest;
 
-        $brand = Brand::create($newRequest);
+        $brand = Brand::create($request);
 
         return redirect()->route('admin.brands')->with(['success' => 'تم ألاضافة بنجاح']);
 
@@ -74,32 +76,26 @@ class BrandController extends Controller
                 return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود']);
 
 
-            DB::beginTransaction();
-            if ($request->has('photo')) {
-                $fileName = uploadImage('brands', $request->photo);
-                Brand::where('id', $id)
-                    ->update([
-                        'photo' => $fileName,
-                    ]);
-            }
-
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
+
+            if ($request->has('photo')) {
+                $photo = Str::after($brand->photo, 'brands/');
+                $photo = public_path('/assets/images/brands/' . $photo);
+                if(file_exists($photo))
+                    unlink($photo);
+                $fileName = uploadImage('brands', $request->photo);
+                $request = $request->except('photo');
+                $request['photo'] = $fileName;
+                $brand->update($request);
+            }
             else
-                $request->request->add(['is_active' => 1]);
+                $brand->update($request->all());
 
-            $brand->update($request->except('_token', 'id', 'photo'));
-
-            //save translations
-            $brand->name = $request->name;
-            $brand->save();
-
-            DB::commit();
             return redirect()->route('admin.brands')->with(['success' => 'تم ألتحديث بنجاح']);
 
         } catch (\Exception $ex) {
 
-            DB::rollback();
             return redirect()->route('admin.brands')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
@@ -114,6 +110,11 @@ class BrandController extends Controller
 
             if (!$brand)
                 return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود ']);
+
+            $photo = Str::after($brand->photo, 'brands/');
+            $photo = public_path('/assets/images/brands/' . $photo);
+            if(file_exists($photo))
+                unlink($photo);
 
             $brand->delete();
 
