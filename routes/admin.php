@@ -43,15 +43,28 @@ Route::group(
         });
         #################### End Categories ################
 
-        ######################### sub categories ###########################
-            Route::group(['prefix' => 'sub_categories'], function () {
-                Route::get('/','SubCategoryController@index') -> name('admin.subcategories');
-                Route::get('create','SubCategoryController@create') -> name('admin.subcategories.create');
-                Route::post('store','SubCategoryController@store') -> name('admin.subcategories.store');
-                Route::get('edit/{id}','SubCategoryController@edit') -> name('admin.subcategories.edit');
-                Route::put('update/{id}','SubCategoryController@update') -> name('admin.subcategories.update');
-                Route::get('delete/{id}','SubCategoryController@destroy') -> name('admin.subcategories.delete');
-            });
+        ########################### sub categories ###########################
+        Route::group(['prefix' => 'sub_categories'], function () {
+            Route::get('/','SubCategoryController@index') -> name('admin.subcategories');
+            Route::get('create','SubCategoryController@create') -> name('admin.subcategories.create');
+            Route::post('store','SubCategoryController@store') -> name('admin.subcategories.store');
+            Route::get('edit/{id}','SubCategoryController@edit') -> name('admin.subcategories.edit');
+            Route::put('update/{id}','SubCategoryController@update') -> name('admin.subcategories.update');
+            Route::get('delete/{id}','SubCategoryController@destroy') -> name('admin.subcategories.delete');
+        });
+
+        ########################### end subCategories ###########################
+
+        ################################## brands ######################################
+        Route::group(['prefix' => 'brands'], function () {
+            Route::get('/','BrandController@index') -> name('admin.brands');
+            Route::get('create','BrandController@create') -> name('admin.brands.create');
+            Route::post('store','BrandController@store') -> name('admin.brands.store');
+            Route::get('edit/{id}','BrandController@edit') -> name('admin.brands.edit');
+            Route::put('update/{id}','BrandController@update') -> name('admin.brands.update');
+            Route::get('delete/{id}','BrandController@destroy') -> name('admin.brands.delete');
+        });
+        ################################## end brands    #######################################
 
     });
 
