@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Requests\BrandRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
