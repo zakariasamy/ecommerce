@@ -20,7 +20,7 @@ class CategoryController extends Controller
     }
 
     public function create(){
-        $categories = Category::select('id', 'parent_id')->get(); // Package will add name too
+        $categories = Category::parent()->get();
         return view('admin.categories.create',compact('categories'));
     }
 
