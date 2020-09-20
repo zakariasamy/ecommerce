@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
+use App\Models\Category;
+use App\Models\CategoryTranslation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
-use Exception;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Illuminate\Support\Facades\DB;
+
 class CategoryController extends Controller
 {
 
@@ -21,17 +25,29 @@ class CategoryController extends Controller
     }
 
     public function store(CategoryRequest $request){
+
         try{
+            DB::beginTransaction();
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
 
             if($request->type == 1) // Main category
                 $request->request->add(['parent_id' => null]);
 
-            Category::create($request->except('type'));
+
+            $names=$request->name;
+            $cat = Category::create($request->except('type', 'name'));
+
+            foreach($names as $lang => $val)
+            $cat->translateOrNew($lang)->name = $val;
+            $cat->save();
+
+            DB::commit();
+
             return redirect()->route('admin.categories')->with(['success' => 'تم التحديث بنجاح']);
         }
         catch(Exception $ex){
+            DB::rollback();
             return redirect()->route('admin.categories')->with(['error' => 'حدث خطأ ما ، يرجي المحاولة لاحقاً']);
         }
     }

@@ -15,4 +15,6 @@ function uploadImage($folder , $image){ // $folder is Added to fileSystem config
     return $fileName;
 }
 
+
+
 ?>

@@ -8,6 +8,7 @@ use Astrotomic\Translatable\Translatable;
 class Category extends Model
 {
     use Translatable;
+
     protected $with='translations';
     protected $guarded=[];
     protected $hidden = ['translations']; // it can be visible by writing some code in controller
@@ -31,6 +32,10 @@ class Category extends Model
 
     public function _parent(){
         return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function _childs(){
+        return $this->hasMany(self::class, 'parent_id');
     }
 
 
