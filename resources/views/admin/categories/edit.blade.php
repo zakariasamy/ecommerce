@@ -44,7 +44,7 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <form class="form"
-                                              action="{{route('admin.maincategories.update',$category -> id)}}"
+                                              action="{{route('admin.categories.update',$category -> id)}}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
