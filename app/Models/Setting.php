@@ -11,7 +11,7 @@ class Setting extends Model
     protected $with='translations';
     protected $fillable=['key','is_translatable','plain_value'];
     protected $casts= ['is_translatable' => 'boolean']; // casting this field to boolean (get true instead of 1 .. )
-    public $translatedAttributes = ['value','locale']; // Used For translatable package
+    protected $translatedAttributes = ['value','locale']; // Used For translatable package
 
 
 

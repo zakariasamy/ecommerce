@@ -12,7 +12,7 @@ class Brand extends Model
     protected $with='translations';
     protected $guarded = [];
     protected $casts= ['is_active' => 'boolean']; // casting this field to boolean (get true instead of 1 .. )
-    public $translatedAttributes = ['name']; // Used For translatable package
+    protected $translatedAttributes = ['name']; // Used For translatable package
 
     public function getActive(){
         return  $this -> is_active  == 0 ?  'غير مفعل'   : 'مفعل' ;

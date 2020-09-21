@@ -10,6 +10,6 @@ class Tag extends Model
     use Translatable;
     protected $with='translations';
     protected $guarded = [];
-    public $translatedAttributes = ['name']; // Used For translatable package
+    protected $translatedAttributes = ['name']; // Used For translatable package
     protected $hidden = 'translations';
 }

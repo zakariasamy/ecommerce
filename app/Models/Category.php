@@ -14,7 +14,7 @@ class Category extends Model
     protected $hidden = ['translations']; // it can be visible by writing some code in controller
     protected $casts= ['is_active' => 'boolean']; // casting this field to boolean (get true instead of 1
 
-    public $translatedAttributes = ['name']; // Used For translatable package
+    protected $translatedAttributes = ['name']; // Used For translatable package
 
 
 
