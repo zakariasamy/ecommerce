@@ -75,20 +75,22 @@
 
                                                 <h4 class="form-section"><i class="ft-home"></i> بيانات القسم </h4>
                                                 <div class="row">
+                                                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اسم القسم
-                                                                 </label>
-                                                            <input type="text" id="name"
-                                                                   class="form-control"
-                                                                   placeholder="  "
-                                                                   value="{{$category -> name}}"
-                                                                   name="name">
-                                                            @error("name")
-                                                            <span class="text-danger"> {{$message}}</span>
+                                                            <label
+                                                                for="name_{{ $localeCode }}">{{ __('admin/cat.name_' . $localeCode) }}
+                                                            </label>
+                                                        <input type="text" value="{{$category->translate($localeCode)->name ?? ''}}"
+                                                                id="name_{{ $localeCode }}" class="form-control"
+                                                                name="name[{{ $localeCode }}] ">
+                                                            @error("name." . $localeCode)
+                                                            <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    @endforeach
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1">  الاسم بالرابط
@@ -106,6 +108,39 @@
 
 
                                                 </div>
+                                                <div class="row @if($category->parent_id == null) hidden @endif" id="cats_list">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> اختر القسم الرئيسي
+                                                            </label>
+                                                            <select name="parent_id" style="width:auto;" class=" form-control">
+                                                                <optgroup label="من فضلك أختر القسم ">
+                                                                    @if ($categories && $categories->count() > 0)
+                                                                        @foreach ($categories as $cat)
+
+                                                                            <option value="{{ $cat->id }}"
+                                                                                @if($cat->id == $category->parent_id) selected @endif>
+                                                                                {{ $cat->name }}</option>
+                                                                            @isset($cat->_childs)
+                                                                                @php
+                                                                                if (App::getLocale() == "ar")
+                                                                                subCatRecursionForEdit($cat->_childs, 1,'←', $category->parent_id);
+                                                                                else
+                                                                                subCatRecursionForEdit($cat->_childs, 1,'→', $category->parent_id);
+
+                                                                                @endphp
+                                                                            @endisset
+                                                                        @endforeach
+                                                                    @endif
+                                                                </optgroup>
+                                                            </select>
+                                                            @error('parent_id')
+                                                            <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
@@ -120,6 +155,32 @@
                                                             @error("is_active")
                                                             <span class="text-danger">{{$message}} </span>
                                                             @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group mt-1">
+                                                            <input type="radio" name="type" value="1"
+                                                            @if($category->parent_id == null) checked  @endif
+                                                                class="switchery" data-color="success" />
+
+                                                            <label class="card-title ml-1">
+                                                                قسم رئيسي
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group mt-1">
+                                                            <input type="radio" name="type" value="2" class="switchery"
+                                                                data-color="success"
+                                                                @if($category->parent_id != null) checked @endif
+                                                                />
+
+                                                            <label class="card-title ml-1">
+                                                                قسم فرعي
+                                                            </label>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -151,3 +212,17 @@
     </div>
 
 @endsection
+@section('script')
+
+<script>
+    $('input:radio[name="type"]').change(
+        function() {
+            if (this.checked && this.value == '2') { // 1 if main cat - 2 if sub cat
+                $('#cats_list').removeClass('hidden');
+            } else {
+                $('#cats_list').addClass('hidden');
+            }
+        });
+
+</script>
+@stop
