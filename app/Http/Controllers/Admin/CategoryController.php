@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Http\Controllers\Controller;
+use App\Http\Enumerations\CategoryType;
 use App\Http\Requests\CategoryRequest;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::paginate(PAGINATION_COUNT);
+        $categories = Category::parent()->paginate(PAGINATION_COUNT);
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -31,7 +32,7 @@ class CategoryController extends Controller
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
 
-            if($request->type == 1) // Main category
+            if($request->type == CategoryType::MainCategory) // Main category
                 $request->request->add(['parent_id' => null]);
 
 
@@ -39,12 +40,12 @@ class CategoryController extends Controller
             $cat = Category::create($request->except('type', 'name'));
 
             foreach($names as $lang => $val)
-            $cat->translateOrNew($lang)->name = $val;
+                $cat->translateOrNew($lang)->name = $val;
             $cat->save();
 
             DB::commit();
 
-            return redirect()->route('admin.categories')->with(['success' => 'تم التحديث بنجاح']);
+            return redirect()->route('admin.categories')->with(['success' => 'تم الإضافة بنجاح']);
         }
         catch(Exception $ex){
             DB::rollback();
@@ -60,14 +61,15 @@ class CategoryController extends Controller
         if (!$category) {
             return redirect()->route('admin.categories')->with(['error' => 'هذا القسم غير موجود']);
         }
-
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::parent()->get();
+        return view('admin.categories.edit', compact('category'),compact('categories'));
     }
 
     public function update($id, CategoryRequest $request)
     {
 
         try {
+            DB::beginTransaction();
             $category = Category::find($id);
             if (!$category)
                 return redirect()->route('admin.categories')->with(['error' => 'هذا القسم غير موجود']);
@@ -76,10 +78,24 @@ class CategoryController extends Controller
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
 
-            $category->update($request->all());
+            if($request->type == CategoryType::MainCategory) // Main category
+            $request->request->add(['parent_id' => null]);
+
+            $category->update($request->except('type','name'));
+
+            $names=$request->name;
+
+            foreach($names as $lang => $val)
+                $category->translateOrNew($lang)->name = $val;
+            $category->save();
+
+            DB::commit();
+
+
             return redirect()->route('admin.categories')->with(['success' => 'تم التحديث بنجاح']);
 
         } catch (\Exception $ex) {
+            DB::rollback();
             return redirect()->route('admin.categories')->with(['error' => 'حدث خطأ ما ، يرجي المحاولة لاحقاً']);
         }
     }

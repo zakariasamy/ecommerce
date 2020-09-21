@@ -9,7 +9,7 @@
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">الرئيسية</a>
                                 </li>
                                 <li class="breadcrumb-item active"> الاقسام الرئيسية
                                 </li>
@@ -26,8 +26,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">جميع الاقسام الرئيسية </h4>
-                                    <a class="heading-elements-toggle"><i
-                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
                                             <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
@@ -43,55 +42,51 @@
 
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard">
-                                        <table
-                                            class="table display nowrap table-striped table-bordered scroll-horizontal">
+                                        <table class="table display nowrap table-striped table-bordered scroll-horizontal">
                                             <thead class="">
-                                            <tr>
-                                                <th>القسم </th>
-                                                <th>القسم الرئيسي </th>
-                                                <th> الرابط</th>
-                                                 <th>الحالة</th>
-                                                 <th>صوره القسم</th>
-                                                <th>الإجراءات</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>القسم </th>
+                                                    <th>القسم الرئيسي </th>
+                                                    <th> الرابط</th>
+                                                    <th>الحالة</th>
+                                                    <th>صوره القسم</th>
+                                                    <th>الإجراءات</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
 
-                                            @isset($categories)
-                                                @foreach($categories as $category)
-                                                    <tr>
-                                                        <td>{{$category -> name}}</td>
-                                                        <td>{{$category -> _parent->name ?? '--'}}</td>
-                                                        <td>{{$category -> slug}}</td>
-                                                        <td>{{$category -> getActive()}}</td>
-                                                        <td> <img style="width: 150px; height: 100px;" src="{{$category -> 	photo}}"></td>
-                                                        <td>
-                                                            <div class="btn-group" role="group"
-                                                                 aria-label="Basic example">
-                                                                <a href="{{route('admin.categories.edit',$category -> id)}}"
-                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
+                                                @isset($categories)
+                                                    @foreach ($categories as $category)
+                                                        <tr>
+                                                            <td>{{ $category->name }}</td>
+                                                            <td>{{ $category->_parent->name ?? '--' }}</td>
+                                                            <td>{{ $category->slug }}</td>
+                                                            <td>{{ $category->getActive() }}</td>
+                                                            <td> <img style="width: 150px; height: 100px;"
+                                                                    src="{{ $category->photo }}"></td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                                                        class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
 
-                                                                <a href="{{route('admin.categories.delete',$category -> id)}}"
-                                                                   class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
+                                                                    <a href="{{ route('admin.categories.delete', $category->id) }}"
+                                                                        class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
 
 
-                                                                <a href=""
-                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">
-                                                                    @if($category -> active == 0)
-                                                                        تفعيل
-                                                                        @else
-                                                                        الغاء تفعيل
-                                                                    @endif
-                                                                </a>
 
 
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endisset
-
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        @isset($category->_childs)
+                                                            @php
+                                                            subCatRecursionForIndex($category->_childs);
+                                                            @endphp
+                                                        @endisset
+                                                    @endforeach
+                                                @endisset
+                                                $
 
                                             </tbody>
                                         </table>
