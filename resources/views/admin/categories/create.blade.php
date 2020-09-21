@@ -102,20 +102,13 @@
                                                                 <select name="parent_id" style="width:auto;" class=" form-control">
                                                                     <optgroup label="من فضلك أختر القسم ">
                                                                         @if ($categories && $categories->count() > 0)
-                                                                            @foreach ($categories as $category)
-
-                                                                                <option value="{{ $category->id }}">
-                                                                                    {{ $category->name }}</option>
-                                                                                @isset($category->_childs)
                                                                                     @php
                                                                                     if (App::getLocale() == "ar")
-                                                                                        subCatRecursion($category->_childs, 1,'←');
+                                                                                        subCatRecursion($categories, 0,'←');
                                                                                     else
-                                                                                        subCatRecursion($category->_childs, 1,'→');
+                                                                                        subCatRecursion($categories, 0,'→');
 
                                                                                     @endphp
-                                                                                @endisset
-                                                                            @endforeach
                                                                         @endif
                                                                     </optgroup>
                                                                 </select>

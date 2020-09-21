@@ -116,21 +116,13 @@
                                                             <select name="parent_id" style="width:auto;" class=" form-control">
                                                                 <optgroup label="من فضلك أختر القسم ">
                                                                     @if ($categories && $categories->count() > 0)
-                                                                        @foreach ($categories as $cat)
-
-                                                                            <option value="{{ $cat->id }}"
-                                                                                @if($cat->id == $category->parent_id) selected @endif>
-                                                                                {{ $cat->name }}</option>
-                                                                            @isset($cat->_childs)
                                                                                 @php
                                                                                 if (App::getLocale() == "ar")
-                                                                                subCatRecursionForEdit($cat->_childs, 1,'←', $category->parent_id);
+                                                                                    subCatRecursionForEdit($categories, 0,'←', $category->parent_id);
                                                                                 else
-                                                                                subCatRecursionForEdit($cat->_childs, 1,'→', $category->parent_id);
+                                                                                    subCatRecursionForEdit($categories, 0,'→', $category->parent_id);
 
                                                                                 @endphp
-                                                                            @endisset
-                                                                        @endforeach
                                                                     @endif
                                                                 </optgroup>
                                                             </select>

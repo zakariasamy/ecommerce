@@ -91,7 +91,7 @@ function subCatRecursionForEdit($categories, $counter, $char, $parent){ // For e
         }
 
         if(isset($cat->_childs)){
-            subCatRecursion($cat->_childs, $counter+1, $char, $parent);
+            subCatRecursionForEdit($cat->_childs, $counter+1, $char, $parent);
         }
     }
 }
