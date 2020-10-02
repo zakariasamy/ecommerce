@@ -24,9 +24,9 @@ class CreateProductsTable extends Migration
             $table->date('special_price_end')->nullable();
             $table->decimal('selling_price', 18, 4)->unsigned()->nullable();
             $table->string('sku')->nullable(); // Product code
-            $table->boolean('manage_stock'); // لو مفعل يعني ممكنم نعرف الكمية الموجودة ف المخزن
+            $table->boolean('manage_stock')->default(0); // لو مفعل يعني ممكنم نعرف الكمية الموجودة ف المخزن
             $table->integer('qty')->nullable(); // Quantity
-            $table->boolean('in_stock');
+            $table->boolean('in_stock')->default(1);
             $table->integer('viewed')->unsigned()->default(0);
             $table->boolean('is_active');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');

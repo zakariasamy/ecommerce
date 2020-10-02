@@ -49,7 +49,7 @@ class Product extends Model
     }
 
     public function categories(){
-        return $this->belongsToMany(Category::class); // we don't need import because it at the same namespace
+        return $this->belongsToMany(Category::class , 'product_category'); // we don't need import because it at the same namespace
     }
 
     public function tags(){

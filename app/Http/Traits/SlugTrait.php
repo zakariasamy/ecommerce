@@ -5,16 +5,18 @@ trait SlugTrait {
 
     public static function getUniqueSlug($all_slugs,$slug){
 
-        if($all_slugs->contains('slug',$slug)){
-            $i=0;
+        $slug = strtolower($slug);
+        $newSlug = $slug;
 
+        if($all_slugs->contains('slug',$newSlug)){
+            $i=0;
             do{
-                $slug.='-' . $i;
+                $newSlug= $slug . '-' . $i;
                 $i++;
-            }while($all_slugs->contains('slug',$slug));
+            }while($all_slugs->contains('slug',$newSlug));
 
         }
-        return $slug;
+        return $newSlug;
     }
 
 
