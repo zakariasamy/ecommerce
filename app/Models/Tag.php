@@ -12,4 +12,5 @@ class Tag extends Model
     protected $guarded = [];
     protected $translatedAttributes = ['name']; // Used For translatable package
     protected $hidden = 'translations';
+
 }

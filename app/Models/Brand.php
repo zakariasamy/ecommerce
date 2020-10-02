@@ -14,6 +14,10 @@ class Brand extends Model
     protected $casts= ['is_active' => 'boolean']; // casting this field to boolean (get true instead of 1 .. )
     protected $translatedAttributes = ['name']; // Used For translatable package
 
+    public function scopeActive($query){
+        return $query->where('is_active',1);
+    }
+
     public function getActive(){
         return  $this -> is_active  == 0 ?  'غير مفعل'   : 'مفعل' ;
      }

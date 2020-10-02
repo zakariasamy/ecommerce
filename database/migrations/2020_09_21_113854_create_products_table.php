@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('slug')->unique();
             $table->decimal('price', 18, 4)->unsigned();
             $table->decimal('special_price', 18, 4)->unsigned()->nullable();
-            $table->string('special_price_type')->nullable();
+            $table->string('special_price_type')->nullable(); // Fixed amount or percent
             $table->date('special_price_start')->nullable();
             $table->date('special_price_end')->nullable();
             $table->decimal('selling_price', 18, 4)->unsigned()->nullable();

@@ -1,9 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Interfaces\RepositoryInterface;
 
-public class implements RepositoryInterface{
+ class Repository implements RepositoryInterface{
 
     protected $model;
     function __construct(Model $model)
