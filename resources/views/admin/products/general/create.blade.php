@@ -50,14 +50,25 @@
                                             @csrf
 
 
+                                            <ul class="nav nav-tabs nav-linetriangle no-hover-bg">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="base-tab41" data-toggle="tab" aria-controls="tab41" href="#tab41" aria-expanded="true">البيانات الأساسية</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="base-tab42" data-toggle="tab" aria-controls="tab42" href="#tab42" aria-expanded="false">السعر</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="base-tab43" data-toggle="tab" aria-controls="tab43" href="#tab43" aria-expanded="false">صور المنتج</a>
+                                                </li>
+                                              </ul>
+                                            <div class="tab-content">
 
-                                            <div class="form-body">
+                                            <div role="tabpanel" class="tab-pane active form-body pt-3" id="tab41" aria-labelledby="base-tab41">
 
-                                                <h4 class="form-section"><i class="ft-home"></i> البيانات الاساسية للمنتج   </h4>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اسم  المنتج
+                                                            <label for="name"> اسم  المنتج
                                                             </label>
                                                             <input type="text" id="name"
                                                                    class="form-control"
@@ -72,11 +83,12 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> وصف المنتج
+                                                            <label for="description"> وصف المنتج
                                                             </label>
-                                                            <textarea  name="description" id="description"
+                                                            <textarea
+                                                            id="description" name="description" id="description"
                                                                    class="form-control"
                                                                    placeholder="  "
                                                             >{{old('description')}}</textarea>
@@ -89,14 +101,14 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> الوصف المختصر
+                                                            <label for="short_description"> الوصف المختصر
                                                             </label>
-                                                            <textarea  name="short-description" id="short-description"
+                                                            <textarea id="short_description" name="short_description" id="short_description"
                                                                        class="form-control"
                                                                        placeholder=""
-                                                            >{{old('short-description')}}</textarea>
+                                                            >{{old('short_description')}}</textarea>
 
-                                                            @error("short-description")
+                                                            @error("short_description")
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
@@ -109,9 +121,9 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
 
-                                                            <label for="projectinput1"> اختر القسم
+                                                            <label for="cats"> اختر القسم
                                                             </label>
-                                                            <select name="categories[]" class="select2 form-control" multiple>
+                                                            <select id="cats" name="categories[]" class="select2 form-control" multiple>
                                                                 <optgroup label="من فضلك أختر القسم ">
                                                                     @if($categories && $categories -> count() > 0)
                                                                         @foreach($categories as $category)
@@ -130,9 +142,9 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اختر ألعلامات الدلالية
+                                                            <label for="tags"> اختر ألعلامات الدلالية
                                                             </label>
-                                                            <select name="tags" class="select2 form-control" multiple>
+                                                            <select id="tags" name="tags" class="select2 form-control" multiple>
                                                                 <optgroup label=" اختر ألعلامات الدلالية ">
                                                                     @if($tags && $tags -> count() > 0)
                                                                         @foreach($tags as $tag)
@@ -149,9 +161,9 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اختر ألماركة
+                                                            <label for="brand_id"> اختر ألماركة
                                                             </label>
-                                                            <select name="brand_id" class="select2 form-control">
+                                                            <select id="brand_id" name="brand_id" class="select2 form-control">
                                                                 <optgroup label="من فضلك أختر الماركة ">
                                                                     @if($brands && $brands -> count() > 0)
                                                                         @foreach($brands as $brand)
@@ -189,6 +201,95 @@
                                                 </div>
                                             </div>
 
+                                            <div class="tab-pane form-body pt-3" id="tab42" aria-labelledby="base-tab42">
+                                                <div class="card">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="price"> السعر
+                                                            </label>
+                                                            <input type="number" id="price"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('price')}}"
+                                                                   name="price">
+                                                            @error("price")
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="special_price"> سعر خاص
+                                                                <span style="color:green">(اختياري)</span>
+                                                            </label>
+                                                            <input type="number" id="special_price"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   min="0"
+                                                                   value="{{old('special_price')}}"
+                                                                   name="special_price">
+                                                            @error("special_price")
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="special_price_type"> نوع السعر الخاص
+                                                                <span style="color:green">(حال إدخال سعر خاص)</span>
+                                                            </label>
+                                                            <select disabled id="special_price_type" name="special_price_type" class=" form-control">
+                                                                <option value="fixed">fixed</option>
+                                                                <option value="percent">percent</option>
+                                                            </select>
+                                                            @error('special_price_type')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="special_price_start"> تاريخ بداية السعر الخاص
+                                                                <span style="color:green">(حال إدخال سعر خاص)</span>
+                                                            </label>
+                                                            <input disabled type="date" id="special_price_start"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('special_price_start')}}"
+                                                                   name="special_price_start">
+                                                            @error('special_price_start')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="special_price_end"> تاريخ نهاية السعر الخاص
+                                                                <span style="color:green">(حال إدخال سعر خاص)</span>
+                                                            </label>
+                                                            <input disabled type="date" id="special_price_end"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('special_price_end')}}"
+                                                                   name="special_price_end">
+                                                            @error('special_price_end')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                                </div>
+                                            <div class="tab-pane form-body" id="tab43" aria-labelledby="base-tab43">
+                                                Image
+                                            </div>
+                                            </div>
+
 
                                             <div class="form-actions">
                                                 <button type="button" class="btn btn-warning mr-1"
@@ -217,14 +318,34 @@
 @section('script')
 
     <script>
-        $('input:radio[name="type"]').change(
-            function(){
-                if (this.checked && this.value == '2') {  // 1 if main cat - 2 if sub cat
-                    $('#cats_list').removeClass('hidden');
+        $('#special_price').on('keyup change',function(e){
+            console.log('yes');
 
-                }else{
-                    $('#cats_list').addClass('hidden');
-                }
+            if($(this).val() == ''){
+                $('#special_price_type').prop("disabled", 'disabled');
+                $('#special_price_start').prop("disabled", 'disabled');
+                $('#special_price_end').prop("disabled", 'disabled');
+            }
+            else{
+                $('#special_price_type').prop("disabled", false);
+                $('#special_price_start').prop("disabled", false);
+                $('#special_price_end').prop("disabled", false);
+            }
             });
+
+        $( document ).ready(function() {
+            if($('#special_price').val() == ''){
+                    $('#special_price_type').prop("disabled", 'disabled');
+                    $('#special_price_start').prop("disabled", 'disabled');
+                    $('#special_price_end').prop("disabled", 'disabled');
+                }
+                else{
+                    $('#special_price_type').prop("disabled", false);
+                    $('#special_price_start').prop("disabled", false);
+                    $('#special_price_end').prop("disabled", false);
+                }
+        });
+
     </script>
     @stop
+

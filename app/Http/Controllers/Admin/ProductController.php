@@ -14,8 +14,13 @@ use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-    public function index(){
 
+    public function try(){
+        return view('admin.products.general.try');
+    }
+    public function index(){
+        $products = Product::select('id','slug','price', 'is_active','created_at')->paginate(PAGINATION_COUNT);
+        return view('admin.products.general.index', compact('products'));
     }
 
     public function Create(){
@@ -30,7 +35,6 @@ class ProductController extends Controller
         DB::beginTransaction();
         // Get Name without multi spaces
         $name = SlugTrait::improveName($request->name);
-
         // Generate Slug
         $slug = SlugTrait::toSlug($name);
 
@@ -39,7 +43,6 @@ class ProductController extends Controller
 
         // Get unique slug
         $slug = SlugTrait::getUniqueSlug($all_slugs, $slug);
-        return $slug;
         $categories = $request->categories;
         $tags = '';
         if($request->has('tags'))
@@ -50,10 +53,20 @@ class ProductController extends Controller
         $request['slug'] = $slug;
         $request['name'] = $name;
 
-        // will be deleted
-        $request['price']=10;
+        // Price section
+        // Handle if user entered special price details without special price using postman
+        if($request['special_price'] == null){
+            $request['special_price_type'] = null;
+            $request['special_price_start'] = null;
+            $request['special_price_end'] = null;
+        }
 
+        //return $request;
         $product = Product::create($request);
+        $product->name = $name;
+        $product->short_description = $request['short_description'];
+        $product->description = $request['description'];
+        $product->save();
 
         $product->categories()->attach($categories);
         if($tags != '')

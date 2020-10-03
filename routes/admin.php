@@ -61,6 +61,7 @@ Route::group(
             Route::get('/','ProductController@index') -> name('admin.products');
             Route::get('general-information','ProductController@create') -> name('admin.products.general.create');
             Route::post('store-general-information','ProductController@store') -> name('admin.products.general.store');
+            Route::get('try','ProductController@try') -> name('admin.products.general.try');
         });
         ################################## end brands    #######################################
 
