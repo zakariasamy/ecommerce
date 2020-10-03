@@ -1,4 +1,9 @@
 @extends('layouts.admin')
+@section('style')
+
+
+
+@endsection
 @section('content')
 
     <div class="app-content content">
@@ -88,6 +93,7 @@
                                                             <label for="description"> وصف المنتج
                                                             </label>
                                                             <textarea
+
                                                             id="description" name="description" id="description"
                                                                    class="form-control"
                                                                    placeholder="  "
@@ -164,14 +170,13 @@
                                                             <label for="brand_id"> اختر ألماركة
                                                             </label>
                                                             <select id="brand_id" name="brand_id" class="select2 form-control">
-                                                                <optgroup label="من فضلك أختر الماركة ">
+                                                                    <option disabled selected >  غير محدد  </option>
                                                                     @if($brands && $brands -> count() > 0)
                                                                         @foreach($brands as $brand)
                                                                             <option
                                                                                 value="{{$brand -> id }}">{{$brand -> name}}</option>
                                                                         @endforeach
                                                                     @endif
-                                                                </optgroup>
                                                             </select>
                                                             @error('brand_id')
                                                             <span class="text-danger"> {{$message}}</span>
@@ -311,9 +316,10 @@
                 <!-- // Basic form layout section end -->
             </div>
         </div>
-    </div>
 
+    </div>
 @stop
+
 
 @section('script')
 
@@ -347,5 +353,12 @@
         });
 
     </script>
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'description',{
+    language: 'ar'
+    }
+    );
+</script>
     @stop
 

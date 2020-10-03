@@ -43,6 +43,8 @@ class ProductController extends Controller
 
         // Get unique slug
         $slug = SlugTrait::getUniqueSlug($all_slugs, $slug);
+
+        //return $slug;
         $categories = $request->categories;
         $tags = '';
         if($request->has('tags'))
