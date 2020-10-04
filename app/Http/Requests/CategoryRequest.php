@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\CategoryTranslation;
 use Illuminate\Foundation\Http\FormRequest;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -26,12 +27,17 @@ class CategoryRequest extends FormRequest
     {
 
         $rules = [
-        'slug' => 'required|unique:categories,slug,' . $this->id,
+        //'slug' => 'required|unique:categories,slug,' . $this->id,
         'type' => 'required|in:1,2', // Main or sub category
         ];
+        // Make unique name except ids
+        $ids = CategoryTranslation::where('category_id',$this->id)->select('id')->get();
+        foreach($ids as $key=> $val)
         foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
         {
-            $rules += ['name.' . $localeCode => 'required'];
+            $ID = CategoryTranslation::where('category_id',$this->id)->where('locale',$localeCode)->select('id')->get();
+            $ID = $ID[0]['id'];
+            $rules += ['name.' . $localeCode => 'required|unique:category_translations,name,' . $ID];
         }
         return $rules;
     }

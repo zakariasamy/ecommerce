@@ -49,7 +49,7 @@
                                               enctype="multipart/form-data">
                                             @csrf
                                             @method('put')
-                                            <input type="hidden" name="id" value="{{$category -> id}}" >
+                                            <input type="hidden" name="id" value="{{$category->id}}" >
 
                                             <div class="form-group">
                                                 <div class="text-center">
@@ -91,20 +91,6 @@
                                                         </div>
                                                     </div>
                                                     @endforeach
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1">  الاسم بالرابط
-                                                                </label>
-                                                            <input type="text" id="name"
-                                                                   class="form-control"
-                                                                   placeholder="  "
-                                                                   value="{{$category -> slug}}"
-                                                                   name="slug">
-                                                            @error("slug")
-                                                            <span class="text-danger"> {{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
 
 
                                                 </div>

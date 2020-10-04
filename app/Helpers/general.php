@@ -28,8 +28,12 @@ function subCatRecursion($categories, $counter, $char){ // For create category
         }
 
         if(isset($cat->id)){
-            echo '<option value=" ' . $cat->id . '"> ' . $space . $style .
+            $show= '<option ';
+            if(old('parent_id') == $cat->id)
+                $show.='selected';
+            $show.=' value=" ' . $cat->id . '"> ' . $space . $style .
              $cat->name . '</option>';
+             echo $show;
         }
         if(isset($cat->_childs)){
             subCatRecursion($cat->_childs, $counter+1, $char);

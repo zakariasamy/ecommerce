@@ -81,25 +81,15 @@
                                                                 </div>
                                                             </div>
                                                         @endforeach
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="projectinput1"> الاسم بالرابط
-                                                                </label>
-                                                                <input type="text" id="name" class="form-control"
-                                                                    placeholder="  " value="{{ old('slug') }}" name="slug">
-                                                                @error("slug")
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
                                                     </div>
 
                                                     <div class="row hidden" id="cats_list">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="projectinput1"> اختر القسم الرئيسي
+                                                                <label for="parent_id"> اختر القسم الرئيسي
                                                                 </label>
-                                                                <select name="parent_id" style="width:auto;" class=" form-control">
+                                                                <select id="parent_id"
+                                                                name="parent_id" style="width:auto;" class=" form-control">
                                                                     <optgroup label="من فضلك أختر القسم ">
                                                                         @if ($categories && $categories->count() > 0)
                                                                                     @php
@@ -124,7 +114,7 @@
                                                             <div class="form-group mt-1">
                                                                 <input type="checkbox" value="1" name="is_active"
                                                                     id="switcheryColor4" class="switchery"
-                                                                    data-color="success" />
+                                                                    data-color="success" @if(old('is_active') == '1')checked @endif />
                                                                 <label for="switcheryColor4" class="card-title ml-1">الحالة
                                                                 </label>
 
@@ -137,10 +127,11 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group mt-1">
-                                                                <input type="radio" name="type" value="1" checked
-                                                                    class="switchery" data-color="success" />
+                                                                <input id="main" type="radio" name="type" value="1" checked
+                                                                @if(old('type') == '1')checked @endif
+                                                                class="switchery" data-color="success" />
 
-                                                                <label class="card-title ml-1">
+                                                                <label for="main" class="card-title ml-1">
                                                                     قسم رئيسي
                                                                 </label>
 
@@ -149,10 +140,12 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group mt-1">
-                                                                <input type="radio" name="type" value="2" class="switchery"
+                                                                <input id="sub" type="radio" name="type" value="2"
+                                                                @if(old('type') == '2')checked @endif
+                                                                class="switchery"
                                                                     data-color="success" />
 
-                                                                <label class="card-title ml-1">
+                                                                <label for="sub" class="card-title ml-1">
                                                                     قسم فرعي
                                                                 </label>
 
@@ -186,6 +179,17 @@
     @section('script')
 
         <script>
+            $(document).ready(function() {
+
+                $('input:radio[name="type"]').each(function() {
+                    if (this.checked && this.value == '2') { // 1 if main cat - 2 if sub cat
+                        $('#cats_list').removeClass('hidden');
+                    } else {
+                        $('#cats_list').addClass('hidden');
+                    }
+                });
+            });
+
             $('input:radio[name="type"]').change(
                 function() {
                     if (this.checked && this.value == '2') { // 1 if main cat - 2 if sub cat

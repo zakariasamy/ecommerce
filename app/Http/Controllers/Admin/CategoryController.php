@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use App\Models\Category;
-use App\Models\CategoryTranslation;
-use App\Http\Controllers\Controller;
-use App\Http\Enumerations\CategoryType;
-use App\Http\Requests\CategoryRequest;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Enumerations\CategoryType;
 
 class CategoryController extends Controller
 {
@@ -26,7 +25,7 @@ class CategoryController extends Controller
     }
 
     public function store(CategoryRequest $request){
-
+        //return $request->name['en'];
         try{
             DB::beginTransaction();
             if (!$request->has('is_active'))
@@ -37,6 +36,33 @@ class CategoryController extends Controller
 
 
             $names=$request->name;
+
+            // Generate slug
+            // Get Name without multi spaces & unwanted chars
+            foreach($names as $lang => $val)
+                $names[$lang] = SlugTrait::improveName($val);
+            $name = '';
+            // Get first name in array which is $name["en"] to make slug from it
+            foreach($names as $lang => $val){
+                $name = $val;
+                break;
+            }
+
+            if(isset($names["en"]))
+                $name = $names["en"];
+            else
+                $name = $names["ar"];
+
+            // Generate Slug
+            $slug = SlugTrait::toSlug($name);
+
+            // Get all slugs from DB which starts with the same slug
+            $all_slugs = Category::where('slug','like',$slug .'%')->get();
+
+            // Get unique slug
+            $slug = SlugTrait::getUniqueSlug($all_slugs, $slug);
+
+            $request->request->add(['slug' => $slug]);
             $cat = Category::create($request->except('type', 'name'));
 
             foreach($names as $lang => $val)
@@ -62,7 +88,10 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories')->with(['error' => 'هذا القسم غير موجود']);
         }
         $categories = Category::parent()->get();
+
+
         return view('admin.categories.edit', compact('category'),compact('categories'));
+
     }
 
     public function update($id, CategoryRequest $request)
@@ -84,6 +113,10 @@ class CategoryController extends Controller
             $category->update($request->except('type','name'));
 
             $names=$request->name;
+
+            // Get Name without multi spaces & unwanted chars
+            foreach($names as $lang => $val)
+            $names[$lang] = SlugTrait::improveName($val);
 
             foreach($names as $lang => $val)
                 $category->translateOrNew($lang)->name = $val;

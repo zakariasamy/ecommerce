@@ -34,7 +34,7 @@ class ProductController extends Controller
         //return $request;
 
         DB::beginTransaction();
-        // Get Name without multi spaces
+        // Get Name without multi spaces & unwanted chars
         $name = SlugTrait::improveName($request->name);
         // Generate Slug
         $slug = SlugTrait::toSlug($name);
