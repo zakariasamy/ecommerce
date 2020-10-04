@@ -63,7 +63,7 @@
                                                     <a class="nav-link" id="base-tab42" data-toggle="tab" aria-controls="tab42" href="#tab42" aria-expanded="false">السعر</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" id="base-tab43" data-toggle="tab" aria-controls="tab43" href="#tab43" aria-expanded="false">صور المنتج</a>
+                                                    <a class="nav-link" id="base-tab43" data-toggle="tab" aria-controls="tab43" href="#tab43" aria-expanded="false">التخزين</a>
                                                 </li>
                                               </ul>
                                             <div class="tab-content">
@@ -127,14 +127,20 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
 
-                                                            <label for="cats"> اختر القسم
+                                                            <label for="categories[]"> اختر القسم
                                                             </label>
-                                                            <select id="cats" name="categories[]" class="select2 form-control" multiple>
+                                                            <select id="categories[]" name="categories[]" class="select2 form-control" multiple>
                                                                 <optgroup label="من فضلك أختر القسم ">
                                                                     @if($categories && $categories -> count() > 0)
                                                                         @foreach($categories as $category)
                                                                             <option
-                                                                                value="{{$category -> id }}">{{$category -> name}}</option>
+                                                                            @if(old('categories'))
+                                                                                @foreach((old('categories')) as $oldCat)
+
+                                                                @if($oldCat==$category->id) selected @endif
+                                                                @endforeach
+                                                                 @endif
+                                                                value="{{$category -> id }}">{{$category -> name}}{{old('categories[]')}}</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </optgroup>
@@ -155,6 +161,7 @@
                                                                     @if($tags && $tags -> count() > 0)
                                                                         @foreach($tags as $tag)
                                                                             <option
+                                                                            @if(old('tags')==$tag->id) selected @endif
                                                                                 value="{{$tag -> id }}">{{$tag -> name}}</option>
                                                                         @endforeach
                                                                     @endif
@@ -174,6 +181,7 @@
                                                                     @if($brands && $brands -> count() > 0)
                                                                         @foreach($brands as $brand)
                                                                             <option
+                                                                            @if(old('brand_id')==$brand->id) selected @endif
                                                                                 value="{{$brand -> id }}">{{$brand -> name}}</option>
                                                                         @endforeach
                                                                     @endif
@@ -248,8 +256,13 @@
                                                                 <span style="color:green">(حال إدخال سعر خاص)</span>
                                                             </label>
                                                             <select disabled id="special_price_type" name="special_price_type" class=" form-control">
-                                                                <option value="fixed">fixed</option>
-                                                                <option value="percent">percent</option>
+                                                                <option
+                                                                @if(old('special_price_type')=="fixed") selected @endif
+
+                                                                value="fixed">fixed</option>
+                                                                <option
+                                                                @if(old('special_price_type')=="percent") selected @endif
+                                                                value="percent">percent</option>
                                                             </select>
                                                             @error('special_price_type')
                                                             <span class="text-danger"> {{$message}}</span>
@@ -290,8 +303,77 @@
                                             </div>
 
                                                 </div>
-                                            <div class="tab-pane form-body" id="tab43" aria-labelledby="base-tab43">
-                                                Image
+                                            <div class="tab-pane form-body pt-3" id="tab43" aria-labelledby="base-tab43">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="sku"> كود  المنتج
+                                                            </label>
+                                                            <input type="text" id="sku"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('sku')}}"
+                                                                   name="sku">
+                                                            @error("sku")
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="in_stock">حالة المنتج
+                                                            </label>
+                                                            <select id="in_stock" name="in_stock" class="form-control" >
+                                                                <optgroup label="من فضلك أختر  ">
+                                                                    <option
+                                                                    @if(old('in_stock')=="1") selected @endif
+                                                                    value="1">متاح</option>
+                                                                    <option
+                                                                    @if(old('in_stock')=="0") selected @endif
+                                                                    value="0">غير متاح </option>
+                                                                </optgroup>
+                                                            </select>
+                                                            @error('in_stock')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="manage_stock">تتبع المستودع
+                                                            </label>
+                                                            <select id="manage_stock" name="manage_stock" class="form-control">
+                                                                <optgroup label="من فضلك أختر النوع ">
+                                                                    <option @if(old('manage_stock')=='0') selected @endif value="0">عدم اتاحه التتبع</option>
+                                                                    <option @if(old('manage_stock')=='1') selected @endif value="1">اتاحة التتبع</option>
+                                                                </optgroup>
+                                                            </select>
+                                                            @error('manage_stock')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                  <!-- QTY  -->
+
+                                                    <div class="col-md-6" style="display:none"  id="qtyDiv">
+                                                        <div class="form-group">
+                                                            <label for="qty">الكمية
+                                                            </label>
+                                                            <input type="text" id="qty"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('qty')}}"
+                                                                   name="qty">
+                                                            @error("qty")
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             </div>
 
@@ -324,6 +406,7 @@
 @section('script')
 
     <script>
+        // Price
         $('#special_price').on('keyup change',function(e){
             console.log('yes');
 
@@ -350,6 +433,30 @@
                     $('#special_price_start').prop("disabled", false);
                     $('#special_price_end').prop("disabled", false);
                 }
+
+                if($("#manage_stock").val() == '1'){
+                    $("#qtyDiv").fadeIn();
+                    $("#qty").attr('disabled',false);
+                }
+                else{
+                    $("#qtyDiv").fadeOut();
+                    $("#qty").attr('disabled',true); // TO ensure that if user entered value then Made manae stock (0)
+                    // Then the value will Not be returned
+                }
+        });
+
+        // Inventory
+        $("#manage_stock").change(function (e) {
+            if($(this).val() == '1'){
+                $("#qtyDiv").fadeIn();
+                $("#qty").attr('disabled',false);
+
+            }
+            else{
+                $("#qtyDiv").fadeOut();
+                $("#qty").attr('disabled',true); // TO ensure that if user entered value then Made manae stock (0)
+                // Then the value will Not be returned
+            }
         });
 
     </script>

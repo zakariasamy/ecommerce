@@ -31,6 +31,7 @@ class ProductController extends Controller
     }
 
     public function store(ProductRequest $request){
+        //return $request;
 
         DB::beginTransaction();
         // Get Name without multi spaces
