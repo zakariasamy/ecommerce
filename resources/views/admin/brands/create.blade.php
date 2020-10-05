@@ -63,20 +63,22 @@
 
                                                 <h4 class="form-section"><i class="ft-home"></i> بيانات الماركة التجارية </h4>
                                                 <div class="row">
+                                                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> الاسم
-                                                                 </label>
-                                                            <input type="text" id="name"
-                                                                   class="form-control"
-                                                                   placeholder="  "
-                                                                   value="{{old('name')}}"
-                                                                   name="name">
-                                                            @error("name")
-                                                            <span class="text-danger">{{$message}}</span>
+                                                            <label
+                                                                for="name_{{ $localeCode }}">{{ __('admin/form.name_' . $localeCode) }}
+                                                            </label>
+                                                            <input type="text" value="{{ old('name.' . $localeCode) }}"
+                                                                id="name_{{ $localeCode }}" class="form-control"
+                                                                name="name[{{ $localeCode }}] ">
+                                                            @error("name." . $localeCode)
+                                                            <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                @endforeach
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
                                                             <input type="checkbox" value="1"

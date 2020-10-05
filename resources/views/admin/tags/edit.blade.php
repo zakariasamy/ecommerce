@@ -61,7 +61,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label
-                                                                for="name_{{ $localeCode }}">{{ __('admin/cat.name_' . $localeCode) }}
+                                                                for="name_{{ $localeCode }}">{{ __('admin/form.name_' . $localeCode) }}
                                                             </label>
                                                             <input type="text" value="{{$tag->translate($localeCode)->name ?? ''}}"
                                                                 id="name_{{ $localeCode }}" class="form-control"

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\BrandTranslation;
 use Illuminate\Foundation\Http\FormRequest;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class BrandRequest extends FormRequest
 {
@@ -23,9 +25,16 @@ class BrandRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
+        $rules = [
             'photo' => 'required_without:id|mimes:png,jpg,jpeg'
         ];
+        foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        {
+            $ID = BrandTranslation::where('brand_id',$this->id)->where('locale',$localeCode)->select('id')->first();
+            if(isset($ID))
+                $ID = $ID['id'];
+            $rules += ['name.' . $localeCode => 'required|unique:brand_translations,name,' . $ID];
+        }
+        return $rules;
     }
 }

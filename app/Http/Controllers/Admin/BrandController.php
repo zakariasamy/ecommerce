@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
 use Illuminate\Support\Str;
+use App\Http\Traits\SlugTrait;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BrandRequest;
 use App\Http\Controllers\Controller;
+use Exception;
 
 class BrandController extends Controller
 {
@@ -23,25 +26,39 @@ class BrandController extends Controller
 
     public function store(BrandRequest $request)
     {
-
+        try{
         if (!$request->has('is_active'))
             $request->request->add(['is_active' => 0]);
 
+        DB::beginTransaction();
+        // Names
+        $names=$request->name;
+
+        // Get Name without multi spaces & unwanted chars
+        foreach($names as $lang => $val)
+            $names[$lang] = SlugTrait::improveName($val);
 
         $fileName = "";
         if ($request->has('photo')) {
             $fileName = uploadImage('brands', $request->photo);
         }
-        $request = $request->except('photo');
+        $request = $request->except('photo','name');
         $request['photo'] = $fileName;
 
        // return $newRequest;
 
         $brand = Brand::create($request);
-
+        // Name of brands
+        foreach($names as $lang => $val)
+            $brand->translateOrNew($lang)->name = $val;
+        $brand->save();
+        DB::commit();
         return redirect()->route('admin.brands')->with(['success' => 'تم ألاضافة بنجاح']);
-
-
+    }
+    catch(Exception $ex){
+        DB::rollback();
+        return redirect()->route('admin.brands')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+    }
 
     }
 
@@ -73,6 +90,13 @@ class BrandController extends Controller
             if (!$brand)
                 return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود']);
 
+            DB::beginTransaction();
+            // Names
+            $names=$request->name;
+
+            // Get Name without multi spaces & unwanted chars
+            foreach($names as $lang => $val)
+                $names[$lang] = SlugTrait::improveName($val);
 
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
@@ -83,17 +107,30 @@ class BrandController extends Controller
                 if(file_exists($photo))
                     unlink($photo);
                 $fileName = uploadImage('brands', $request->photo);
-                $request = $request->except('photo');
+
+
+                $request = $request->except('photo','name');
                 $request['photo'] = $fileName;
                 $brand->update($request);
+
+                // Name of brands
+                foreach($names as $lang => $val)
+                    $brand->translateOrNew($lang)->name = $val;
+                    $brand->save();
             }
-            else
-                $brand->update($request->all());
+            else{
+                $brand->update($request->except('name'));
+                // Name of brands
+                foreach($names as $lang => $val)
+                    $brand->translateOrNew($lang)->name = $val;
+                $brand->save();
+            }
+            DB::commit();
 
             return redirect()->route('admin.brands')->with(['success' => 'تم ألتحديث بنجاح']);
 
         } catch (\Exception $ex) {
-
+            DB::rollback();
             return redirect()->route('admin.brands')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
