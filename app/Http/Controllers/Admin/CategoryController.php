@@ -48,11 +48,6 @@ class CategoryController extends Controller
                 break;
             }
 
-            if(isset($names["en"]))
-                $name = $names["en"];
-            else
-                $name = $names["ar"];
-
             // Generate Slug
             $slug = SlugTrait::toSlug($name);
 

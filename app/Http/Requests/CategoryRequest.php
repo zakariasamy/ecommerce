@@ -31,12 +31,12 @@ class CategoryRequest extends FormRequest
         'type' => 'required|in:1,2', // Main or sub category
         ];
         // Make unique name except ids
-        $ids = CategoryTranslation::where('category_id',$this->id)->select('id')->get();
-        foreach($ids as $key=> $val)
+
         foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
         {
-            $ID = CategoryTranslation::where('category_id',$this->id)->where('locale',$localeCode)->select('id')->get();
-            $ID = $ID[0]['id'];
+            $ID = CategoryTranslation::where('category_id',$this->id)->where('locale',$localeCode)->select('id')->first();
+            if(isset($ID))
+                $ID = $ID['id'];
             $rules += ['name.' . $localeCode => 'required|unique:category_translations,name,' . $ID];
         }
         return $rules;

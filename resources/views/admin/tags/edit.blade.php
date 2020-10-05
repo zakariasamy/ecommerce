@@ -56,34 +56,22 @@
 
                                                 <h4 class="form-section"><i class="ft-home"></i> بيانات tags </h4>
                                                 <div class="row">
+                                                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> الاسم
+                                                            <label
+                                                                for="name_{{ $localeCode }}">{{ __('admin/cat.name_' . $localeCode) }}
                                                             </label>
-                                                            <input type="text" id="name"
-                                                                   class="form-control"
-                                                                   placeholder="  "
-                                                                   value="{{$tag -> name}}"
-                                                                   name="name">
-                                                            @error("name")
-                                                            <span class="text-danger">{{$message}}</span>
+                                                            <input type="text" value="{{$tag->translate($localeCode)->name ?? ''}}"
+                                                                id="name_{{ $localeCode }}" class="form-control"
+                                                                name="name[{{ $localeCode }}] ">
+                                                            @error("name." . $localeCode)
+                                                            <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                       <div class="col-md-6">
-                                                              <div class="form-group">
-                                                                  <label for="projectinput1"> اسم بالرابط
-                                                                  </label>
-                                                                  <input type="text" id="name"
-                                                                         class="form-control"
-                                                                         placeholder="  "
-                                                                         value="{{$tag -> slug}}"
-                                                                         name="slug">
-                                                                  @error("slug")
-                                                                  <span class="text-danger">{{$message}}</span>
-                                                                  @enderror
-                                                              </div>
-                                                          </div>
+                                                @endforeach
 
                                                 </div>
 

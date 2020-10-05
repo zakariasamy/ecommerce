@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TagTranslation;
 use Illuminate\Foundation\Http\FormRequest;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 class TagRequest extends FormRequest
 {
@@ -23,9 +26,14 @@ class TagRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'slug' => 'required|unique:tags,slug,' . $this->id,
-        ];
+        $rules =[];
+        foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        {
+            $ID = TagTranslation::where('tag_id',$this->id)->where('locale',$localeCode)->select('id')->first();
+            if(isset($ID))
+                $ID = $ID['id'];
+            $rules += ['name.' . $localeCode => 'required|unique:tag_translations,name,' . $ID];
+        }
+        return $rules;
     }
 }

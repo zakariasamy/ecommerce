@@ -18,7 +18,7 @@ class CreateProductTranslationsTable extends Migration
             $table->id();
             $table->foreignId('product_id');
             $table->string('locale');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->longText('description');
             $table->text('short_description')->nullable();
             $table->unique(['product_id','locale']);

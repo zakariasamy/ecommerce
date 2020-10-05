@@ -86,7 +86,7 @@
                                                         @endisset
                                                     @endforeach
                                                 @endisset
-                                                $
+
 
                                             </tbody>
                                         </table>
