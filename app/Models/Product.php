@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ProductImage;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,6 +55,10 @@ class Product extends Model
 
     public function tags(){
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function images(){
+        return $this->hasMany(ProductImage::class);
     }
 
     public function getActive(){

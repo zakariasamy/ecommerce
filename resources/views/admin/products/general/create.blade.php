@@ -1,6 +1,17 @@
 @extends('layouts.admin')
 @section('style')
-
+<style>
+.image-customized{
+    border-radius: 20px;
+    overflow: hidden;
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+.dz-default{
+    display: none !important; /* Default message showed by drop zone to upload file */
+}
+</style>
 
 
 @endsection
@@ -58,6 +69,9 @@
                                             <ul class="nav nav-tabs nav-linetriangle no-hover-bg">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" id="base-tab41" data-toggle="tab" aria-controls="tab41" href="#tab41" aria-expanded="true">البيانات الأساسية</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="base-tab44" data-toggle="tab" aria-controls="tab44" href="#tab44" aria-expanded="false">الصور</a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" id="base-tab42" data-toggle="tab" aria-controls="tab42" href="#tab42" aria-expanded="false">السعر</a>
@@ -375,6 +389,33 @@
                                                 </div>
 
                                             </div>
+                                            <div role="tabpanel" class="tab-pane form-body pt-3" id="tab44" aria-labelledby="base-tab44">
+                                                <div class="form-body">
+
+                                                    <h4 class="form-section"><i class="ft-home"></i> صور المنتج </h4>
+                                                    <div class="form-group">
+                                                        <div id="dpz-multiple-files" class="dropzone dropzone-area">
+                                                            @if(!old('images'))
+                                                                <div class="dz-message">يمكنك رفع اكثر من صوره هنا</div>
+                                                            @endif
+                                                            @if(old('images'))
+                                                            @foreach(old('images') as $image)
+                                                                <input type="hidden" name="images[]" value="{{$image}}">
+
+                                                                <div class="dz-preview dz-processing dz-complete dz-image-preview">
+                                                                    <div class="image-customized">
+                                                                        <img data-dz-thumbnail="" width="120px" height="120px" alt="1.jpeg" src="{{ asset('assets/images/products/' . $image) }}">
+                                                                    </div>
+                                                                <a class="dz-remove dz-remove-customized" data-photo="{{$image}}" >حذف الصوره</a></div>
+                                                           @endforeach
+                                                          @endif
+                                                        </div>
+                                                        <br><br>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
                                             </div>
 
 
@@ -467,5 +508,99 @@
     }
     );
 </script>
+<script>
+
+    var uploadedDocumentMap = {}
+   Dropzone.options.dpzMultipleFiles = {
+       paramName: "dzfile", // The name that will be used to transfer the file
+       //autoProcessQueue: false,
+       maxFilesize: 5, // MB
+       clickable: true,
+       addRemoveLinks: true,
+       acceptedFiles: 'image/*',
+       dictFallbackMessage: " المتصفح الخاص بكم لا يدعم خاصيه تعدد الصوره والسحب والافلات ",
+       dictInvalidFileType: "لايمكنك رفع هذا النوع من الملفات ",
+       dictCancelUpload: "الغاء الرفع ",
+       dictCancelUploadConfirmation: " هل انت متاكد من الغاء رفع الملفات ؟ ",
+       dictRemoveFile: "حذف الصوره",
+       dictMaxFilesExceeded: "لايمكنك رفع عدد اكثر من هضا ",
+       headers: {
+           'X-CSRF-TOKEN':
+               "{{ csrf_token() }}"
+       }
+
+       ,
+       url: "{{route('admin.products.image')}}", // Set the url
+       success:
+           function (file, response) {
+               $('form').append('<input type="hidden" name="images[]" value="' + response.name + '">')
+               uploadedDocumentMap[file.name] = response.name
+           }
+       ,
+       removedfile: function (file) {
+           file.previewElement.remove()
+           var name = ''
+           if (typeof file.file_name !== 'undefined') {
+               name = file.file_name
+           } else {
+               name = uploadedDocumentMap[file.name]
+           }
+           $('form').find('input[name="images[]"][value="' + name + '"]').remove();
+           $.ajax({
+                    headers: {
+                                'X-CSRF-TOKEN': "{{csrf_token()}}"
+                            },
+                    type: 'POST',
+                    url: '{{ route('admin.products.image.delete') }}',
+                    data: {photo: name},
+                    success: function (data){
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }});
+
+       }
+       ,
+       // previewsContainer: "#dpz-btn-select-files", // Define the container to display the previews
+       init: function () {
+
+            @if(isset($event) && $event->document)
+                var files =
+                {!! json_encode($event->document) !!}
+                for (var i in files) {
+                    var file = files[i]
+                    this.options.addedfile.call(this, file)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="images[]" value="' + file.file_name + '">')
+            }
+           @endif
+       }
+   }
+
+
+
+</script>
+<script>
+    $(".dz-remove-customized").click(function (e) {
+        $.ajax({
+                    headers: {
+                                'X-CSRF-TOKEN': "{{csrf_token()}}"
+                            },
+                    type: 'POST',
+                    url: '{{ route('admin.products.image.delete') }}',
+                    data: {photo: $(this).attr('data-photo')},
+                    success: function (data){
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }});
+        $(this).parent().remove();
+
+    });
+</script>
+
     @stop
+
 

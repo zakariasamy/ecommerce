@@ -6,6 +6,8 @@ use App\Models\Tag;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +18,12 @@ class ProductController extends Controller
 {
 
     public function try(){
-        return view('admin.products.general.try');
+        $photo = "/var/www/ecommerce/public/assets/images/products/1beKAf53NVEnHdriZInpt0P7afddA6flOgZ2uhvA.jpeg";
+        if(file_exists($photo)){
+            unlink($photo);
+            return "yes";
+        }
+        return "no";
     }
     public function index(){
         $products = Product::select('id','slug','price', 'is_active','created_at')->paginate(PAGINATION_COUNT);
@@ -34,6 +41,8 @@ class ProductController extends Controller
         //return $request;
 
         DB::beginTransaction();
+        $images = $request->images;
+        //return $images;
         // Get Name without multi spaces & unwanted chars
         $name = SlugTrait::improveName($request->name);
         // Generate Slug
@@ -51,7 +60,7 @@ class ProductController extends Controller
         if($request->has('tags'))
             $tags= $request->tags;
 
-        $request = $request->except(['categories','tags']);
+        $request = $request->except(['categories','tags','images']);
 
         $request['slug'] = $slug;
         $request['name'] = $name;
@@ -75,9 +84,36 @@ class ProductController extends Controller
         if($tags != '')
             $product->tags()->attach($tags);
 
+            // save dropzone images
+            if ($images && count($images) > 0) {
+                foreach($images as $image) {
+                   ProductImage::create([
+                        'product_id' => $product->id,
+                        'image' => $image,
+                    ]);
+                }
+            }
+
+
         DB::commit();
         return dd($request);
 
         return $slug;
+    }
+
+    public function storeImage(Request $request){
+        $file = $request->file('dzfile');
+        $filename = uploadImage('products', $file);
+
+        return response()->json([
+            'name' => $filename,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
+    }
+
+    public function deleteImage(Request $request){
+        $photo = public_path('/assets/images/products/' . $request->photo);
+        if(file_exists($photo))
+            unlink($photo);
     }
 }

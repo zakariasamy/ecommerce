@@ -34,6 +34,10 @@ class ProductRequest extends FormRequest
             'tags' => 'nullable',
             'brand_id' => 'exists:brands,id',
 
+            // Images
+            'images' => 'required|array|min:1',
+            'images.*' => 'string',
+
             // Prices
             'price' => 'required|numeric|min:0',
             'special_price' => 'nullable|numeric|min:0|lt:price',
