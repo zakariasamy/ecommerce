@@ -70,7 +70,7 @@ class BrandController extends Controller
         $brand = Brand::find($id);
 
         if (!$brand)
-            return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود ']);
+            return redirect()->route('admin.brands')->with(['error' => 'هذه الماركة غير موجود ']);
 
         return view('admin.brands.edit', compact('brand'));
 
@@ -88,7 +88,7 @@ class BrandController extends Controller
             $brand = Brand::find($id);
 
             if (!$brand)
-                return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود']);
+                return redirect()->route('admin.brands')->with(['error' => 'هذه الماركة غير موجود']);
 
             DB::beginTransaction();
             // Names
@@ -140,11 +140,10 @@ class BrandController extends Controller
     public function destroy($id)
     {
         try {
-            //get specific categories and its translations
             $brand = Brand::find($id);
 
             if (!$brand)
-                return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود ']);
+                return redirect()->route('admin.brands')->with(['error' => 'هذه الماركة غير موجود ']);
 
             $photo = Str::after($brand->photo, 'brands/');
             $photo = public_path('/assets/images/brands/' . $photo);
