@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AttributeRequest;
 
 class AttributeController extends Controller
 {
@@ -21,7 +22,7 @@ class AttributeController extends Controller
         return view('admin.products.attributes.create');
     }
 
-    public function store(Request $request)
+    public function store(AttributeRequest $request)
     {
         //return $request;
         try{
@@ -62,7 +63,7 @@ class AttributeController extends Controller
 
     }
 
-    public function update($id, Request $request)
+    public function update($id, AttributeRequest $request)
     {
         try {
 

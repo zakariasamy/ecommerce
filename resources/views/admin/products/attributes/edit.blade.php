@@ -49,6 +49,7 @@
                                             @csrf
                                             @method('put')
 
+                                    <input name="id" type="hidden" value="{{$attribute->id}}">
                                             <div class="form-body">
 
                                                 <h4 class="form-section"><i class="ft-home"></i> بيانات الخاصية </h4>
