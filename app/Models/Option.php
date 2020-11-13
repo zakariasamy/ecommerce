@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Models\Product;
 use App\Models\Attribute;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
+    use Translatable;
     protected $with = ['translations'];
 
 

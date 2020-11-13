@@ -79,12 +79,12 @@ Route::group(
 
         ################################## Attribute options ######################################
                 Route::group(['prefix' => 'options'], function () {
-                    Route::get('/','OptionController@index') -> name('admin.options');
-                    Route::get('create','OptionsController@create') -> name('admin.products.options.create');
-                    Route::post('store','OptionsController@store') -> name('admin.options.store');
-                    Route::get('delete/{id}','OptionsController@destroy') -> name('admin.options.delete');
-                //Route::get('edit/{id}','AttributesController@edit') -> name('admin.attributes.edit');
-                    //Route::post('update/{id}','AttributesController@update') -> name('admin.attributes.update');
+                    Route::get('/','OptionController@index') -> name('admin.products.options');
+                    Route::get('create','OptionController@create') -> name('admin.products.options.create');
+                    Route::post('store','OptionController@store') -> name('admin.products.options.store');
+                    Route::get('delete/{id}','OptionController@destroy') -> name('admin.products.options.delete');
+                    Route::get('edit/{id}','OptionController@edit') -> name('admin.products.options.edit');
+                    Route::post('update/{id}','OptionController@update') -> name('admin.products.options.update');
                 });
         ################################## end options    #######################################
         });

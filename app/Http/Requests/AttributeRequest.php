@@ -23,6 +23,7 @@ class AttributeRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules()
     {
         $rules =[];

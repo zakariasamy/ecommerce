@@ -65,6 +65,12 @@
                 <li><a class="menu-item" href="{{route('admin.products.attributes.create')}}" data-i18n="nav.dash.crypto">أضافة
                         خاصية جديد   </a>
                 </li>
+                <li><a class="menu-item" href="{{route('admin.products.options')}}" data-i18n="nav.dash.crypto">
+                        قيم الخصائص   </a>
+                </li>
+                <li><a class="menu-item" href="{{route('admin.products.options.create')}}" data-i18n="nav.dash.crypto">أضافة
+                     قيمة خاصية   </a>
+                </li>
             </ul>
             </li>
 
