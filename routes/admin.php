@@ -66,7 +66,7 @@ Route::group(
 
             Route::get('try','ProductController@try') -> name('admin.products.general.try');
 
-            ################################## Attributes (like color - size) ######################################
+            ############################ Attributes (like color - size) ############################
             Route::group(['prefix' => 'attributes'], function () {
                 Route::get('/','AttributeController@index') -> name('admin.products.attributes');
                 Route::get('create','AttributeController@create') -> name('admin.products.attributes.create');
@@ -75,7 +75,18 @@ Route::group(
                 Route::put('update/{id}','AttributeController@update') -> name('admin.products.attributes.update');
                 Route::get('delete/{id}','AttributeController@destroy') -> name('admin.products.attributes.delete');
             });
-            ################################## end Attributes #######################################
+            ############################ end Attributes ############################
+
+        ################################## Attribute options ######################################
+                Route::group(['prefix' => 'options'], function () {
+                    Route::get('/','OptionController@index') -> name('admin.options');
+                    Route::get('create','OptionsController@create') -> name('admin.products.options.create');
+                    Route::post('store','OptionsController@store') -> name('admin.options.store');
+                    Route::get('delete/{id}','OptionsController@destroy') -> name('admin.options.delete');
+                //Route::get('edit/{id}','AttributesController@edit') -> name('admin.attributes.edit');
+                    //Route::post('update/{id}','AttributesController@update') -> name('admin.attributes.update');
+                });
+        ################################## end options    #######################################
         });
         ################################## end Product    #######################################
 

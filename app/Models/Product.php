@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Option;
 use App\Models\ProductImage;
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -63,5 +64,14 @@ class Product extends Model
 
     public function getActive(){
         return  $this -> is_active  == 0 ?  'غير مفعل' : 'مفعل';
+     }
+
+    public function scopeActive($query){
+        return $query -> where('is_active',1);
+    }
+
+     public function options()
+     {
+         return $this->hasMany(Option::class,'product_id');
      }
 }
