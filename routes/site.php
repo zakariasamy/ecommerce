@@ -22,13 +22,13 @@ Route::group([
    // route::get('/' ,function(){
      //   return view('front.home');
    // });
-    route::get('/', 'Site\HomeController@home');
-
-    Route::group(['namespace' => 'Site', 'middleware' => 'guest'], function () {
-        //guest  user
-      // route::get('/', 'HomeController@home')->name('home');
 
 
+    Route::group(['namespace' => 'Site'], function () {
+
+        route::get('/', 'HomeController@home');
+        route::get('category/{slug}', 'CategoryController@productsBySlug')->name('category');
+        route::get('product/{slug}', 'ProductController@productsBySlug')->name('product.details');
 
     });
 
@@ -49,6 +49,20 @@ Route::group([
         });
     });
 
+    Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function () {
+        Route::post('wishlist', 'WishlistController@store')->name('wishlist.store');
+        Route::delete('wishlist', 'WishlistController@destroy')->name('wishlist.destroy');
+        Route::get('wishlist/products', 'WishlistController@index')->name('wishlist.products.index');
+    });
 
+            /**
+         *  Cart routes
+         */
+        Route::group(['prefix' => 'cart'], function () {
+            Route::get('/', 'CartController@getIndex')->name('site.cart.index');
+            Route::post('/cart/add/{slug?}', 'CartController@postAdd')->name('site.cart.add');
+            Route::post('/update/{slug}', 'CartController@postUpdate')->name('site.cart.update');
+            Route::post('/update-all', 'CartController@postUpdateAll')->name('site.cart.update-all');
+        });
 
 });

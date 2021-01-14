@@ -96,14 +96,14 @@
                                                         <a href="{{route('product.details',$product -> slug)}}"
                                                            class="thumbnail product-thumbnail two-image">
                                                             <img class="img-fluid image-cover"
-                                                                 src="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 src="{{$product ->images[0] ->image ?? ''}}"
                                                                  alt=""
-                                                                 data-full-size-image-url="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 data-full-size-image-url="{{$product ->images[0] ->image ?? ''}}"
                                                                  width="600" height="600">
                                                             <img class="img-fluid image-secondary"
-                                                                 src="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 src="{{$product ->images[0] -> image ?? ''}}"
                                                                  alt=""
-                                                                 data-full-size-image-url="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 data-full-size-image-url="{{$product ->images[0] ->image ?? ''}}"
                                                                  width="600" height="600">
                                                         </a>
 
