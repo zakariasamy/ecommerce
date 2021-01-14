@@ -19,14 +19,14 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
 
-    Route::get('/' ,function(){
-        return view('front.home');
-    });
-
+   // route::get('/' ,function(){
+     //   return view('front.home');
+   // });
+    route::get('/', 'Site\HomeController@home');
 
     Route::group(['namespace' => 'Site', 'middleware' => 'guest'], function () {
         //guest  user
-      //  route::get('/', 'HomeController@home')->name('home')->middleware('VerifiedUser');
+      // route::get('/', 'HomeController@home')->name('home');
 
 
 

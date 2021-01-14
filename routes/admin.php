@@ -104,6 +104,21 @@ Route::group(
 
         ################################## End Tags ######################################
 
+        ################################## sliders ######################################
+        Route::group(['prefix' => 'sliders'], function () {
+
+            // Create image
+            Route::get('/', 'SliderController@addImages')->name('admin.sliders.create');
+
+            // Called in Dropzone
+            Route::post('images', 'SliderController@saveSliderImages')->name('admin.sliders.images.store');
+
+            // Called in create route
+            Route::post('images/db', 'SliderController@saveSliderImagesDB')->name('admin.sliders.images.store.db');
+
+            Route::post('delete-image','SliderController@deleteImage') -> name('admin.sliders.images.delete');
+        });
+        ################################## end sliders    #######################################
 
     });
 

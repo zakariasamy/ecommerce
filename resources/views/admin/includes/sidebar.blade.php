@@ -123,6 +123,7 @@
                             </li>
                         </ul>
                     </li>
+
                     <li><a class="menu-item" href="#" data-i18n="nav.templates.horz.main">Horizontal</a>
                         <ul class="menu-content">
                             <li><a class="menu-item" href="../horizontal-menu-template"
@@ -134,6 +135,14 @@
                         </ul>
                     </li>
                 </ul>
+                <li><a class="menu-item" href="#"
+                    data-i18n="nav.templates.vert.main"> سلايدر </a>
+                 <ul class="menu-content">
+                     <li><a class="menu-item" href="{{route('admin.sliders.create')}}"
+                            data-i18n="nav.templates.vert.classic_menu">صور الاسليدر </a>
+                     </li>
+                 </ul>
+             </li>
             </li>
             <li class=" navigation-header">
                 <span data-i18n="nav.category.layouts">Layouts</span><i class="la la-ellipsis-h ft-minus"

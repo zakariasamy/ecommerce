@@ -18,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/try' ,function(){
+    $photo = public_path('/assets/images/sliders/' . 'EVSd75pee1zT6gDcNOvP6Ktd6NdLyT48PhvmC972.jpeg');
+    if(file_exists($photo))
+        unlink($photo);
+});
