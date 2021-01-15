@@ -42,7 +42,7 @@
                                         <div class="images-container list_thumb">
                                             <div class="product-cover">
                                                 <img class="js-qv-product-cover img-fluid"
-                                                     src="{{$product -> images[0] -> photo ?? ''}}"
+                                                     src="{{$product -> images[0] -> image ?? ''}}"
                                                      alt="" title="" style="width:100%;" itemprop="image">
                                                 <div class="layer hidden-sm-down" data-toggle="modal"
                                                      data-target="#product-modal">
@@ -56,9 +56,9 @@
                                                         @foreach($product -> images as $image)
                                                             <div class="item thumb-container col-md-6 col-xs-12 pt-30">
                                                                 <img class="img-fluid thumb js-thumb  selected "
-                                                                     data-image-medium-src="{{$image -> photo}}"
-                                                                     data-image-large-src="{{$image -> photo}}"
-                                                                     src="{{$image -> photo}}"
+                                                                     data-image-medium-src="{{$image -> image}}"
+                                                                     data-image-large-src="{{$image -> image}}"
+                                                                     src="{{$image -> image}}"
                                                                      alt="" title="" itemprop="image">
                                                             </div>
                                                         @endforeach
@@ -464,14 +464,14 @@
                                                 <a href="{{route('product.details',$_product -> slug)}}"
                                                    class="thumbnail product-thumbnail two-image">
                                                     <img class="img-fluid image-cover"
-                                                         src="{{$_product -> images[0] -> photo ?? ''}}"
+                                                         src="{{$_product -> images[0] -> image ?? ''}}"
                                                          alt=""
-                                                         data-full-size-image-url="{{$product -> images[0] -> photo ?? ''}}"
+                                                         data-full-size-image-url="{{$product -> images[0] -> image ?? ''}}"
                                                          width="600" height="600">
                                                     <img class="img-fluid image-secondary"
-                                                         src="{{$_product -> images[0] -> photo ?? ''}}"
+                                                         src="{{$_product -> images[0] -> image ?? ''}}"
                                                          alt=""
-                                                         data-full-size-image-url="{{$_product -> images[0] -> photo ?? ''}}"
+                                                         data-full-size-image-url="{{$_product -> images[0] -> image ?? ''}}"
                                                          width="600" height="600">
                                                 </a>
 
