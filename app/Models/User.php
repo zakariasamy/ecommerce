@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use App\Models\UserVerificationCode;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -40,5 +41,15 @@ class User extends Authenticatable
 
     public function codes(){
         return $this->hasMany(UserVerificationCode::class, 'user_id');
+    }
+
+    public function wishlist()
+    {
+        return $this->belongsToMany(Product::class, 'wish_lists')->withTimestamps();
+    }
+
+    public function wishlistHas($productId)
+    {
+        return self::wishlist()->where('product_id', $productId)->exists();
     }
 }

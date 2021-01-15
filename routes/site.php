@@ -50,9 +50,9 @@ Route::group([
     });
 
     Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function () {
+        Route::get('wishlist/products', 'WishlistController@index')->name('wishlist.products.index');
         Route::post('wishlist', 'WishlistController@store')->name('wishlist.store');
         Route::delete('wishlist', 'WishlistController@destroy')->name('wishlist.destroy');
-        Route::get('wishlist/products', 'WishlistController@index')->name('wishlist.products.index');
     });
 
             /**

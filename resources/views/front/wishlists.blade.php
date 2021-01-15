@@ -94,12 +94,12 @@
                                                         <a href="audio/22-408-aenean-porta-ligula-egestas-east.html#/1-size-s/10-color-red"
                                                            class="thumbnail product-thumbnail two-image">
                                                             <img class="img-fluid image-cover"
-                                                                 src="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 src="{{$product ->images[0] -> image ?? ''}}"
                                                                  alt=""
                                                                  data-full-size-image-url="{{$product -> images[0] -> photo ?? ''}}"
                                                                  width="600" height="600">
                                                             <img class="img-fluid image-secondary"
-                                                                 src="{{$product -> images[0] -> photo ?? ''}}"
+                                                                 src="{{$product ->images[0] -> image ?? ''}}"
                                                                  alt=""
                                                                  data-full-size-image-url="{{$product -> images[0] -> photo ?? ''}}"
                                                                  width="600" height="600">

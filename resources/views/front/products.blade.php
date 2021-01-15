@@ -260,7 +260,7 @@
                     'productId': $(this).attr('data-product-id'),
                 },
                 success: function (data) {
-                    if(data.wished )
+                    if(data.wished ) // if store funcion returned wished as true ( means the product is not exists before in wish list)
                     $('.alert-modal').css('display','block');
                     else
                         $('.alert-modal2').css('display','block');
