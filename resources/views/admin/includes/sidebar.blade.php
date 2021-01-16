@@ -22,7 +22,23 @@
                 </ul>
             </li>
 
+            @can('users')
 
+            <li class="nav-item"><a href=""><i class="la la-male"></i>
+                <span class="menu-title" data-i18n="nav.dash.main">مستخدمي لوحه التحكم </span>
+            </a>
+            <ul class="menu-content">
+                <li class="active"><a class="menu-item" href="{{route('admin.users.index')}}"
+                                      data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                </li>
+                <li><a class="menu-item" href="{{route('admin.users.create')}}" data-i18n="nav.dash.crypto">أاضافة
+                        جديدة </a>
+                </li>
+            </ul>
+        </li>
+        @endcan
+
+        @can('categories')
        <li class="nav-item"><a href=""><i class="la la-group"></i>
                     <span class="menu-title" data-i18n="nav.dash.main">الاقسام </span>
                     <span
@@ -37,7 +53,9 @@
                     </li>
                 </ul>
             </li>
+        @endcan
 
+        @can('products')
             <li class="nav-item"><a href=""><i class="la la-male"></i>
                 <span class="menu-title" data-i18n="nav.dash.main">المنتجات  </span>
                 <span
@@ -52,7 +70,9 @@
                 </li>
             </ul>
             </li>
+        @endcan
 
+        @can('attributes')
             <li class="nav-item"><a href=""><i class="la la-male"></i>
                 <span class="menu-title" data-i18n="nav.dash.main">خصائص المنتجات  </span>
                 <span
@@ -73,7 +93,8 @@
                 </li>
             </ul>
             </li>
-
+        @endcan
+        @can('brands')
             <li class="nav-item"><a href=""><i class="la la-group"></i>
                 <span class="menu-title" data-i18n="nav.dash.main"> الماركات التجارية  </span>
                 <span
@@ -88,8 +109,9 @@
                 </li>
             </ul>
             </li>
+        @endcan
 
-
+        @can('tags')
         <li class="nav-item"><a href=""><i class="la la-group"></i>
             <span class="menu-title" data-i18n="nav.dash.main"> العلامات tags  </span>
             <span
@@ -105,6 +127,25 @@
         </ul>
         </li>
 
+        @endcan
+
+        @can('roles')
+        <li class="nav-item"><a href=""><i class="la la-group"></i>
+            <span class="menu-title" data-i18n="nav.dash.main"> الصلاحيات  </span>
+            <span
+                class="badge badge badge-danger badge-pill float-right mr-2">{{\App\Models\Tag::count()}}</span>
+        </a>
+        <ul class="menu-content">
+            <li class="active"><a class="menu-item" href="{{route('admin.roles.index')}}"
+                                  data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+            </li>
+            <li><a class="menu-item" href="{{route('admin.roles.create')}}" data-i18n="nav.dash.crypto">أضافة صلاحية
+                      </a>
+            </li>
+
+        </ul>
+        </li>
+        @endcan
 
 
 

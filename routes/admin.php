@@ -21,7 +21,7 @@ Route::group(
         Route::get('', 'AdminController@index')->name('admin.dashboard');
         Route::get('logout', 'LoginController@logout')->name('admin.logout');
 
-        Route::group(['prefix' => 'settings'], function () {
+        Route::group(['prefix' => 'settings' , 'middleware' => 'can:settings'], function () {
             Route::get('shipping-methods/{type}', 'SettingController@editShippingMethods')->name('edit.shipping.methods');
             Route::put('shipping-methods', 'SettingController@updateShippingMethods')->name('update.shipping.methods');
         });
@@ -32,7 +32,7 @@ Route::group(
         });
 
         #################### Categories ################
-        Route::group(['prefix' => 'categories'], function () {
+        Route::group(['prefix' => 'categories' , 'middleware' => 'can:categories'], function () {
             Route::get('/', 'CategoryController@index')->name('admin.categories');
             Route::get('create', 'CategoryController@create')->name('admin.categories.create');
             Route::post('store', 'CategoryController@store')->name('admin.categories.store');
@@ -46,7 +46,7 @@ Route::group(
 
 
         ################################## brands ######################################
-        Route::group(['prefix' => 'brands'], function () {
+        Route::group(['prefix' => 'brands' , 'middleware' => 'can:brands'], function () {
             Route::get('/','BrandController@index') -> name('admin.brands');
             Route::get('create','BrandController@create') -> name('admin.brands.create');
             Route::post('store','BrandController@store') -> name('admin.brands.store');
@@ -57,7 +57,7 @@ Route::group(
         ################################## end brands #######################################
 
         ################################## products routes ######################################
-        Route::group(['prefix' => 'products'], function () {
+        Route::group(['prefix' => 'products' , 'middleware' => 'can:products'], function () {
             Route::get('/','ProductController@index') -> name('admin.products');
             Route::get('general-information','ProductController@create') -> name('admin.products.general.create');
             Route::post('store-general-information','ProductController@store') -> name('admin.products.general.store');
@@ -67,7 +67,7 @@ Route::group(
             Route::get('try','ProductController@try') -> name('admin.products.general.try');
 
             ############################ Attributes (like color - size) ############################
-            Route::group(['prefix' => 'attributes'], function () {
+            Route::group(['prefix' => 'attributes' , 'middleware' => 'can:attributes'], function () {
                 Route::get('/','AttributeController@index') -> name('admin.products.attributes');
                 Route::get('create','AttributeController@create') -> name('admin.products.attributes.create');
                 Route::post('store','AttributeController@store') -> name('admin.products.attributes.store');
@@ -78,7 +78,7 @@ Route::group(
             ############################ end Attributes ############################
 
         ################################## Attribute options ######################################
-                Route::group(['prefix' => 'options'], function () {
+                Route::group(['prefix' => 'options' , 'middleware' => 'can:options'], function () {
                     Route::get('/','OptionController@index') -> name('admin.products.options');
                     Route::get('create','OptionController@create') -> name('admin.products.options.create');
                     Route::post('store','OptionController@store') -> name('admin.products.options.store');
@@ -93,7 +93,7 @@ Route::group(
 
         ################################## Tags ######################################
 
-        Route::group(['prefix' => 'tags'], function () {
+        Route::group(['prefix' => 'tags', 'middleware' => 'can:tags'], function () {
             Route::get('/','TagController@index') -> name('admin.tags');
             Route::get('create','TagController@create') -> name('admin.tags.create');
             Route::post('store','TagController@store') -> name('admin.tags.store');
@@ -119,6 +119,26 @@ Route::group(
             Route::post('delete-image','SliderController@deleteImage') -> name('admin.sliders.images.delete');
         });
         ################################## end sliders    #######################################
+
+        ################################## roles ######################################
+        Route::group(['prefix' => 'roles' , 'middleware' => 'can:roles'], function () {
+            Route::get('/', 'RoleController@index')->name('admin.roles.index');
+            Route::get('create', 'RoleController@create')->name('admin.roles.create');
+            Route::post('store', 'RoleController@saveRole')->name('admin.roles.store');
+            Route::get('/edit/{id}', 'RoleController@edit') ->name('admin.roles.edit') ;
+            Route::post('update/{id}', 'RoleController@update')->name('admin.roles.update');
+            });
+        ################################## end roles ######################################
+
+
+        ############################## Users #########################################
+        Route::group(['prefix' => 'users' , 'middleware' => 'can:users'], function () {
+            Route::get('/', 'UserController@index')->name('admin.users.index');
+            Route::get('/create', 'UserController@create')->name('admin.users.create');
+            Route::post('/store', 'UserController@store')->name('admin.users.store');
+        });
+
+        ############################## End Users #########################################
 
     });
 
