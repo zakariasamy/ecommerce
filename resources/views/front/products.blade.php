@@ -1,5 +1,7 @@
 @extends('layouts.site')
-
+@section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('content')
 
     <nav data-depth="3" class="breadcrumb-bg">
@@ -273,16 +275,20 @@
 
             $.ajax({
                 type: 'post',
-                url: "{{route('site.cart.add')}}",
+                url: "{{Route('site.cart.add')}}",
                 data: {
                     'product_id': $(this).attr('data-product-id'),
                     'product_slug' : $(this).attr('data-product-slug'),
                 },
                 success: function (data) {
-
+                    var text = $(".cart-products-count").text();
+                    $(".cart-products-count").text(text+1);
                 }
             });
         });
+
+
+
     </script>
 
 @stop

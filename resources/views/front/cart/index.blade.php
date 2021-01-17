@@ -38,7 +38,7 @@
                                                         <div class="product-line-grid-left col-sm-2 col-xs-4">
                                                         <span class="product-image media-middle">
                                                           <img class="img-fluid"
-                                                               src="{{$product -> images[0] -> photo ?? ''}}"
+                                                               src="{{$product -> images[0] -> image ?? ''}}"
                                                                alt="Vehicula vel tempus sit amet ulte">
                                                         </span>
                                                         </div>

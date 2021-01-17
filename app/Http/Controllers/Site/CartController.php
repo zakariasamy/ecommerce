@@ -41,7 +41,8 @@ class CartController extends Controller
 
     public function getIndex()
     {
-        $basket = $this -> basket ;
+       //return "";
+        $basket = $this ->basket ;
         return view('front.cart.index',compact('basket'));
     }
 
@@ -55,12 +56,16 @@ class CartController extends Controller
      */
     public function postAdd(Request $request)
     {
+
+        //return response()->json(['status' => 'sucess2020']);
          $slug =$request -> product_slug ;
          $product = Product::where('slug', $slug)->firstOrFail();
 
         try {
             $this->basket->add($product, $request->quantity ?? 1);
+
         } catch (QuantityExceededException $e) {
+
             return 'Quantity Exceeded';  // must be trans as the site is multi languages
         }
 

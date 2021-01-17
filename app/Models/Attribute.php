@@ -9,7 +9,7 @@ use Astrotomic\Translatable\Translatable;
 class Attribute extends Model
 {
     use Translatable;
-    protected $fillable = ['id'];
+    protected $guarded = [];
     protected $translatedAttributes = ['name']; // Used For translatable package
 
     public  function options(){

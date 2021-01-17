@@ -30,15 +30,13 @@ Route::group([
         route::get('category/{slug}', 'CategoryController@productsBySlug')->name('category');
         route::get('product/{slug}', 'ProductController@productsBySlug')->name('product.details');
 
-        Route::group(['prefix' => 'cart'], function () {
-            Route::get('/', 'CartController@getIndex')->name('site.cart.index');
-            Route::post('/add/{slug?}', 'CartController@postAdd')->name('site.cart.add');
-            Route::post('/update/{slug}', 'CartController@postUpdate')->name('site.cart.update'); // add or delete from storage
-            Route::post('/update-all', 'CartController@postUpdateAll')->name('site.cart.update-all');
-        });
-
     });
-
+    Route::group(['prefix' => 'cart', 'namespace' => 'Site'], function () {
+        Route::get('/', 'CartController@getIndex')->name('site.cart.index');
+        Route::post('/add/{slug?}', 'CartController@postAdd')->name('site.cart.add');
+        Route::post('/update/{slug}', 'CartController@postUpdate')->name('site.cart.update'); // add or delete from storage
+        Route::post('/update-all', 'CartController@postUpdateAll')->name('site.cart.update-all');
+    });
 
 
     Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function () {

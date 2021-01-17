@@ -41,10 +41,12 @@
             background-color: #ffffff;
         }
 
+
         @media (min-width: 1200px) {
             .container {
                 width: 1200px;
             }
+
 
             #header .container {
                 width: 1200px;
@@ -250,6 +252,7 @@
 
 <script type="text/javascript"
         src="{{asset('assets/front/themes/vinova_savemart/assets/cache/bottom-3c96ed23.js')}}"></script>
+
 
 @yield('scripts')
 
