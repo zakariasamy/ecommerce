@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\VariationSuggestionTranslation;
 use Illuminate\Foundation\Http\FormRequest;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class AdminRequest extends FormRequest
+class SuggestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +23,11 @@ class AdminRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules()
     {
-        return [
-            "name" => 'required|min:2',
-            "role_id" => 'required|numeric|exists:roles,id',
-            'email' => 'required|email|unique:admins,email,'.$this -> id,
-            'password'  => 'required|confirmed|min:8'
+        return  [
+            'categories' => 'required',
         ];
     }
-
 }

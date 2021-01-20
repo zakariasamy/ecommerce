@@ -87,6 +87,19 @@ Route::group(
                     Route::post('update/{id}','OptionController@update') -> name('admin.products.options.update');
                 });
         ################################## end options    #######################################
+
+        ################################## variation_suggestions ######################################
+            Route::group(['prefix' => 'variation-suggest'], function () {
+                Route::get('/','VariationSuggestionController@index') -> name('admin.products.var.suggest');
+                Route::get('create','VariationSuggestionController@create') -> name('admin.products.var.suggest.create');
+                Route::post('store','VariationSuggestionController@store') -> name('admin.products.var.suggest.store');
+                Route::get('delete/{id}','VariationSuggestionController@destroy') -> name('admin.products.var.suggest.delete');
+                Route::get('edit/{id}','VariationSuggestionController@edit') -> name('admin.products.var.suggest.edit');
+                Route::post('update/{id}','VariationSuggestionController@update') -> name('admin.products.var.suggest.update');
+            });
+        ################################## end variation_suggestions    #######################################
+
+
         });
         ################################## end Product    #######################################
 

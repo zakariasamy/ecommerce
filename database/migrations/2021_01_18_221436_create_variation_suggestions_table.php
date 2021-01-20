@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRoleIdColumnToAdminsTable extends Migration
+class CreateVariationSuggestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AddRoleIdColumnToAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->foreignId('role_id')->nullable()->after('password');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
-
+        Schema::create('varsuggestions', function (Blueprint $table) {
+            $table->id();
+            $table->boolean('is_general')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -27,8 +27,6 @@ class AddRoleIdColumnToAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('variation_suggestions');
     }
 }
