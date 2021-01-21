@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Services\Products;
+namespace App\Repositories;
 
 use App\Http\Traits\SlugTrait;
 use App\Models\VarsuggestionTranslation;
 use App\Models\VariationSuggestionTranslation;
 
 
-class VariationSuggestionService
+class VariationSuggestionRepository
 {
-
 
     public function validateNameInCreate($lang, $name){
         // json contains accepts array like (['color','size']) - we should give length to return just who

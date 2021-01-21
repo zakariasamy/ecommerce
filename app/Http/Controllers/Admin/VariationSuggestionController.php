@@ -9,16 +9,14 @@ use App\Http\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestionRequest;
-use App\Models\VarsuggestionTranslation;
-use App\Http\Services\Products\VariationSuggestionService;
-use Illuminate\Support\Facades\Validator;
+use App\Repositories\VariationSuggestionRepository;
 
 class VariationSuggestionController extends Controller
 {
 
 
     private $service;
-    public function __construct(VariationSuggestionService $varService){
+    public function __construct(VariationSuggestionRepository $varService){
 
         $this->service = $varService;
 
